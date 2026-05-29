@@ -27,74 +27,11 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          manualChunks: (id) => {
-            // More granular chunk splitting for better optimization
-            if (id.includes('node_modules')) {
-              // React core - keep React minimal
-              if (id.includes('react/') && !id.includes('react-dom') && !id.includes('react-router')) {
-                return 'react-core';
-              }
-              // React DOM - separate from React core
-              if (id.includes('react-dom')) {
-                return 'react-dom';
-              }
-              // Router
-              if (id.includes('react-router')) {
-                return 'router-vendor';
-              }
-              // State management
-              if (id.includes('@reduxjs/toolkit') || id.includes('react-redux') || id.includes('redux-persist')) {
-                return 'redux-vendor';
-              }
-              // HTTP client
-              if (id.includes('axios')) {
-                return 'http-vendor';
-              }
-              // React Query core
-              if (id.includes('@tanstack/react-query') && !id.includes('devtools')) {
-                return 'query-vendor';
-              }
-              // React Query DevTools (separate chunk, only loaded in dev)
-              if (id.includes('@tanstack/react-query-devtools')) {
-                return 'query-devtools';
-              }
-              // Sentry core
-              if (id.includes('@sentry/core') || id.includes('@sentry/browser')) {
-                return 'sentry-core';
-              }
-              // Sentry internal (tracing, replay, etc. are bundled here in v8+)
-              if (id.includes('@sentry-internal')) {
-                return 'sentry-tracing';
-              }
-              // Sentry React integration
-              if (id.includes('@sentry/react')) {
-                return 'sentry-react';
-              }
-              // Other vendor libraries
-              return 'vendor';
-            }
-            
-            // App chunks - split by feature for better caching
-            if (id.includes('/hooks/')) {
-              return 'hooks';
-            }
-            if (id.includes('/components/')) {
-              return 'components';
-            }
-            if (id.includes('/store/')) {
-              return 'store';
-            }
-            if (id.includes('/core/')) {
-              return 'core';
-            }
-            if (id.includes('/screens/')) {
-              return 'screens';
-            }
-            if (id.includes('/router/')) {
-              return 'router';
-            }
-          },
-          // Optimize chunk file names
+          // No `manualChunks` — Vite 8 / Rolldown's auto-splitter does a
+          // better job than our hand-rolled rules did. Dynamic imports
+          // (e.g. `await import("@sentry/react")` in src/core/sentry) get
+          // their own chunk automatically, which is what we wanted from
+          // the old `sentry-*` chunk rules anyway.
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',

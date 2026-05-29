@@ -7,20 +7,23 @@ const DIST_JS_DIR = "dist/assets/js";
 
 // Per-chunk budgets in KB (raw, not gzipped). Tune as the app grows.
 //
-// NOTE: Vite 8 / Rolldown reshapes chunks differently than Vite 7 / Rollup.
-// `react-core` now bundles broader peer deps that previously landed in
-// `vendor` / `router-vendor`. `manualChunks` in `vite.config.ts` is overdue
-// for a Rolldown-aware retune — track that separately.
+// Under Vite 8 / Rolldown we no longer use `manualChunks`; the bundler
+// auto-splits based on static-vs-dynamic import boundaries. The natural
+// chunks today are:
+//   - `index-*.js`     — main entry (React, ReactDOM, Redux, axios, query)
+//   - `esm-*.js`       — Sentry dynamic import chunk (gated by feature flag)
+//   - `web-vitals-*.js`— web-vitals dynamic import
+//   - `<route>.screen-*.js` — one chunk per lazy-loaded route
 const BUDGETS = {
   default: 250,
-  "react-core": 500,
-  "react-dom": 220,
-  "router-vendor": 100,
-  "redux-vendor": 50,
-  "http-vendor": 60,
-  "sentry-react": 250,
-  "sentry-tracing": 250,
-  vendor: 200,
+  // Main entry — React + ReactDOM + Redux Toolkit + axios + react-query
+  // + redux-persist + crypto-js. Re-evaluate if this drifts upward.
+  index: 500,
+  // Sentry dynamic chunk — Sentry itself is ~450 KB; lives outside the
+  // critical path because main.tsx uses `await import("@sentry/react")`.
+  esm: 500,
+  // web-vitals dynamic chunk.
+  "web-vitals": 30,
 };
 
 const matchBudget = (filename) => {

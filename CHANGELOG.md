@@ -25,7 +25,11 @@ Sections: Added, Changed, Deprecated, Removed, Fixed, Security -->
 ### Fixed
 
 - `src/store/store.ts` now uses an inline Promise-wrapped `localStorage` adapter instead of importing `redux-persist/lib/storage`. Vite 8 / Rolldown's CJS-interop produced a runtime `storage.getItem is not a function` from `getStoredState` regardless of which import form we tried; sidestepping the dependency removes the moving piece entirely. Same SSR-safe noop fallback as the upstream module.
-- Bumped `react-core` chunk budget in `scripts/check-bundle-size.mjs` from the default 250 KB to 500 KB. Rolldown's chunking pulls more peer code into `react-core` than Rollup did; the `manualChunks` function in `vite.config.ts` is overdue for a Rolldown-aware retune (tracked as follow-up).
+
+### Changed (follow-up to Vite 8 upgrade)
+
+- Removed the hand-rolled `manualChunks` function in `vite.config.ts`. Under Vite 8 / Rolldown the rules were silently merged into one 468 KB `react-core` chunk because Rolldown treats `manualChunks` return values as hints, not guarantees. Letting Rolldown auto-split produces a healthier layout: route-based dynamic chunks (`login.screen`, `dashboard.screen`, `not-found.screen`), the Sentry dynamic import on its own chunk (`esm-*.js`, ~457 KB, out of the critical path), `web-vitals` on its own chunk, and the main entry (~400 KB).
+- Reset per-chunk budgets in `scripts/check-bundle-size.mjs` to match the new natural layout (`index`, `esm`, `web-vitals`, default). Old vendor-name budgets (`react-core`, `react-dom`, `router-vendor`, etc.) removed — those chunks no longer exist.
 
 ### Security
 
