@@ -1,37 +1,40 @@
 # CODEOWNERS — required reviewers per path.
 #
 # Syntax: <pattern> <owner> [more owners...]
-# Owners can be GitHub usernames (@user) or team slugs (@org/team).
+# Multiple owners on a single line means ANY of them can approve.
 # Last matching pattern wins, so put the catch-all first and refine below.
 #
-# !! Replace the @placeholder owners below with real GitHub handles before
-# !! turning on branch protection that requires CODEOWNERS review. Until then,
-# !! these rules are advisory — PRs won't be blocked on missing reviewers.
+# Reviewers are added to PRs automatically based on the files touched.
+# Once branch protection is set to require CODEOWNERS review, a PR
+# can't merge until one matching owner approves it.
 
-# Catch-all — every file needs at least this team's approval.
-*                              @your-org/frontend-team
+# Catch-all — every PR needs at least one of these reviewers.
+*                              @sushan-shrestha @RojeshPrajapati-Outcode
 
-# Build, CI, and security-critical paths — extra eyes from platform/security.
-/.github/                      @your-org/frontend-team @your-org/devops
-/.github/workflows/            @your-org/frontend-team @your-org/devops
-/.github/dependabot.yml        @your-org/frontend-team @your-org/devops
-/.husky/                       @your-org/frontend-team @your-org/devops
+# Build, CI, and security-critical paths — same reviewers; called out for clarity.
+/.github/                      @sushan-shrestha @RojeshPrajapati-Outcode
+/.github/workflows/            @sushan-shrestha @RojeshPrajapati-Outcode
+/.github/dependabot.yml        @sushan-shrestha @RojeshPrajapati-Outcode
+/.husky/                       @sushan-shrestha @RojeshPrajapati-Outcode
 
 # Build tooling and dependency surface.
-/package.json                  @your-org/frontend-team @your-org/devops
-/package-lock.json             @your-org/frontend-team @your-org/devops
-/vite.config.ts                @your-org/frontend-team
-/vitest.config.ts              @your-org/frontend-team
-/tsconfig*.json                @your-org/frontend-team
-/eslint.config.js              @your-org/frontend-team
-/scripts/                      @your-org/frontend-team @your-org/devops
+/package.json                  @sushan-shrestha @RojeshPrajapati-Outcode
+/package-lock.json             @sushan-shrestha @RojeshPrajapati-Outcode
+/vite.config.ts                @sushan-shrestha @RojeshPrajapati-Outcode
+/vitest.config.ts              @sushan-shrestha @RojeshPrajapati-Outcode
+/tsconfig*.json                @sushan-shrestha @RojeshPrajapati-Outcode
+/eslint.config.js              @sushan-shrestha @RojeshPrajapati-Outcode
+/commitlint.config.js          @sushan-shrestha @RojeshPrajapati-Outcode
+/scripts/                      @sushan-shrestha @RojeshPrajapati-Outcode
 
 # Security-sensitive runtime surface — auth/session, persisted state, Sentry, HTTP.
-/src/store/                    @your-org/frontend-team @your-org/security
-/src/core/sentry/              @your-org/frontend-team @your-org/security
-/src/core/http/                @your-org/frontend-team @your-org/security
+/src/store/                    @sushan-shrestha @RojeshPrajapati-Outcode
+/src/core/sentry/              @sushan-shrestha @RojeshPrajapati-Outcode
+/src/core/http/                @sushan-shrestha @RojeshPrajapati-Outcode
 
-# Process docs — keep aligned with how the team actually works.
-/CONTRIBUTING.md               @your-org/frontend-team
-/README.md                     @your-org/frontend-team
-/audit.md                      @your-org/frontend-team
+# Process and release docs — keep aligned with how the team actually works.
+/CONTRIBUTING.md               @sushan-shrestha @RojeshPrajapati-Outcode
+/README.md                     @sushan-shrestha @RojeshPrajapati-Outcode
+/CHANGELOG.md                  @sushan-shrestha @RojeshPrajapati-Outcode
+/DEPLOYMENT.md                 @sushan-shrestha @RojeshPrajapati-Outcode
+/docs/                         @sushan-shrestha @RojeshPrajapati-Outcode
