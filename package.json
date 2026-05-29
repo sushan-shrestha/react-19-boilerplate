@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
-    "@sentry/react": "^10.54.0",
+    "@sentry/react": "^10.55.0",
     "@tanstack/react-query": "^5.74.4",
     "@tanstack/react-query-devtools": "^5.83.0",
     "axios": "^1.8.3",
