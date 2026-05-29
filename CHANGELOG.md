@@ -14,24 +14,29 @@ Sections: Added, Changed, Deprecated, Removed, Fixed, Security -->
 
 ### Changed
 
-- Bumped `vite` 7 → 8 and `@vitejs/plugin-react` 4 → 6 (paired major upgrade — plugin-react 6 requires vite 8). Vite 8 ships with Rolldown as the default bundler; chunk output shifted (`router-vendor`, `http-vendor`, and the empty `sentry-*` chunks are now consolidated into `core` and `components`). All chunks remain within the budgets enforced by `scripts/check-bundle-size.mjs`. The `manualChunks` function in `vite.config.ts` may be worth re-tuning for Rolldown's id format in a follow-up.
-- Bumped `typescript` 5 → 6. Removed deprecated `baseUrl: "."` from `tsconfig.app.json` and made `paths` values explicitly relative (`"./src/*"`) — TS 6 requires this when `baseUrl` is unset. `typescript-eslint@8` already supports TS 6, no change needed there.
-- Bumped `@eslint/js` 9 → 10, `react-router-dom` 7.15 → 7.16, `eslint-plugin-prettier` 5.5.5 → 5.5.6.
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
-- `src/store/store.ts` now uses an inline Promise-wrapped `localStorage` adapter instead of importing `redux-persist/lib/storage`. Vite 8 / Rolldown's CJS-interop produced a runtime `storage.getItem is not a function` from `getStoredState` regardless of which import form we tried; sidestepping the dependency removes the moving piece entirely. Same SSR-safe noop fallback as the upstream module.
+### Security
 
-### Changed (follow-up to Vite 8 upgrade)
+## [0.2.0] - 2026-05-29
 
-- Removed the hand-rolled `manualChunks` function in `vite.config.ts`. Under Vite 8 / Rolldown the rules were silently merged into one 468 KB `react-core` chunk because Rolldown treats `manualChunks` return values as hints, not guarantees. Letting Rolldown auto-split produces a healthier layout: route-based dynamic chunks (`login.screen`, `dashboard.screen`, `not-found.screen`), the Sentry dynamic import on its own chunk (`esm-*.js`, ~457 KB, out of the critical path), `web-vitals` on its own chunk, and the main entry (~400 KB).
+Build-system sweep: Vite 7→8 (with Rolldown), TypeScript 5→6, and a chunk-splitting overhaul. No public-facing app behavior changed, but the deployed bundle layout is meaningfully different — Sentry and web-vitals are now genuinely lazy, route screens lazy-load per page.
+
+### Changed
+
+- Bumped `vite` 7 → 8 and `@vitejs/plugin-react` 4 → 6 (paired major upgrade — plugin-react 6 requires vite 8). Vite 8 ships with Rolldown as the default bundler.
+- Bumped `typescript` 5 → 6. Removed deprecated `baseUrl: "."` from `tsconfig.app.json` and made `paths` values explicitly relative (`"./src/*"`) — TS 6 requires this when `baseUrl` is unset. `typescript-eslint@8` already supports TS 6, no change needed there.
+- Bumped `@eslint/js` 9 → 10, `react-router-dom` 7.15 → 7.16, `eslint-plugin-prettier` 5.5.5 → 5.5.6.
+- Removed the hand-rolled `manualChunks` function in `vite.config.ts`. Under Rolldown the rules were silently merged into one 468 KB `react-core` chunk; Rolldown treats `manualChunks` return values as hints, not guarantees. Letting Rolldown auto-split produces a healthier layout: route-based dynamic chunks (`login.screen`, `dashboard.screen`, `not-found.screen`), the Sentry dynamic import on its own chunk (`esm-*.js`, ~457 KB, out of the critical path), `web-vitals` on its own chunk, and the main entry (~400 KB).
 - Reset per-chunk budgets in `scripts/check-bundle-size.mjs` to match the new natural layout (`index`, `esm`, `web-vitals`, default). Old vendor-name budgets (`react-core`, `react-dom`, `router-vendor`, etc.) removed — those chunks no longer exist.
 
-### Security
+### Fixed
+
+- `src/store/store.ts` now uses an inline Promise-wrapped `localStorage` adapter instead of importing `redux-persist/lib/storage`. Vite 8 / Rolldown's CJS-interop produced a runtime `storage.getItem is not a function` from `getStoredState` regardless of which import form we tried; sidestepping the dependency removes the moving piece entirely. Same SSR-safe noop fallback as the upstream module.
 
 ## [0.1.2] - 2026-05-29
 
@@ -90,7 +95,8 @@ First tagged release of the hardened boilerplate.
 - Auth tokens persisted to `localStorage` are now AES-encrypted at rest. Persistence is disabled outright when `VITE_PERSIST_ENCRYPT_KEY` is not configured (no plaintext fallback).
 - Conventional Commit messages enforced on every commit, preventing PRs from landing with messages that can't be parsed by changelog/release tooling later.
 
-[Unreleased]: https://github.com/OutCode-Software/bentigration-Frontend/compare/v0.1.2...HEAD
-[0.1.2]: https://github.com/OutCode-Software/bentigration-Frontend/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/OutCode-Software/bentigration-Frontend/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/OutCode-Software/bentigration-Frontend/releases/tag/v0.1.0
+[Unreleased]: https://github.com/sushan-shrestha/react-19-boilerplate/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/sushan-shrestha/react-19-boilerplate/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/sushan-shrestha/react-19-boilerplate/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/sushan-shrestha/react-19-boilerplate/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/sushan-shrestha/react-19-boilerplate/releases/tag/v0.1.0
