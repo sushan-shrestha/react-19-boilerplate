@@ -69,3 +69,13 @@ First tagged release of the hardened boilerplate.
 
 [Unreleased]: https://github.com/your-org/bentigration-Frontend/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/your-org/bentigration-Frontend/releases/tag/v0.1.0
+
+## [0.1.1] - 2026-05-29
+
+### Changed
+
+- `CONTRIBUTING.md` clarified that Conventional Commits are enforced at commit time via `commitlint`.
+
+### Fixed
+
+- Bumped `eslint-plugin-security` 3.0.1 → 4.0.0. v3 used the removed `context.getSourceCode()` API and broke under ESLint 10.
