@@ -6,8 +6,14 @@ import { join } from "node:path";
 const DIST_JS_DIR = "dist/assets/js";
 
 // Per-chunk budgets in KB (raw, not gzipped). Tune as the app grows.
+//
+// NOTE: Vite 8 / Rolldown reshapes chunks differently than Vite 7 / Rollup.
+// `react-core` now bundles broader peer deps that previously landed in
+// `vendor` / `router-vendor`. `manualChunks` in `vite.config.ts` is overdue
+// for a Rolldown-aware retune — track that separately.
 const BUDGETS = {
   default: 250,
+  "react-core": 500,
   "react-dom": 220,
   "router-vendor": 100,
   "redux-vendor": 50,
