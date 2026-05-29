@@ -15,6 +15,7 @@ Sections: Added, Changed, Deprecated, Removed, Fixed, Security -->
 ### Changed
 
 - Bumped `vite` 7 → 8 and `@vitejs/plugin-react` 4 → 6 (paired major upgrade — plugin-react 6 requires vite 8). Vite 8 ships with Rolldown as the default bundler; chunk output shifted (`router-vendor`, `http-vendor`, and the empty `sentry-*` chunks are now consolidated into `core` and `components`). All chunks remain within the budgets enforced by `scripts/check-bundle-size.mjs`. The `manualChunks` function in `vite.config.ts` may be worth re-tuning for Rolldown's id format in a follow-up.
+- Bumped `typescript` 5 → 6. Removed deprecated `baseUrl: "."` from `tsconfig.app.json` and made `paths` values explicitly relative (`"./src/*"`) — TS 6 requires this when `baseUrl` is unset. `typescript-eslint@8` already supports TS 6, no change needed there.
 - Bumped `@eslint/js` 9 → 10, `react-router-dom` 7.15 → 7.16, `eslint-plugin-prettier` 5.5.5 → 5.5.6.
 
 ### Deprecated
