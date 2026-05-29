@@ -22,6 +22,18 @@ Sections: Added, Changed, Deprecated, Removed, Fixed, Security -->
 
 ### Security
 
+## [0.1.2] - 2026-05-29
+
+### Fixed
+
+- Bumped `eslint-plugin-security` 3.0.1 → 4.0.0. v3 used the removed `context.getSourceCode()` API and broke under ESLint 10.
+
+## [0.1.1] - 2026-05-29
+
+### Changed
+
+- `CONTRIBUTING.md` clarified that Conventional Commits are enforced at commit time via `commitlint`.
+
 ## [0.1.0] - 2026-05-28
 
 First tagged release of the hardened boilerplate.
@@ -67,15 +79,7 @@ First tagged release of the hardened boilerplate.
 - Auth tokens persisted to `localStorage` are now AES-encrypted at rest. Persistence is disabled outright when `VITE_PERSIST_ENCRYPT_KEY` is not configured (no plaintext fallback).
 - Conventional Commit messages enforced on every commit, preventing PRs from landing with messages that can't be parsed by changelog/release tooling later.
 
-[Unreleased]: https://github.com/your-org/bentigration-Frontend/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/your-org/bentigration-Frontend/releases/tag/v0.1.0
-
-## [0.1.1] - 2026-05-29
-
-### Changed
-
-- `CONTRIBUTING.md` clarified that Conventional Commits are enforced at commit time via `commitlint`.
-
-### Fixed
-
-- Bumped `eslint-plugin-security` 3.0.1 → 4.0.0. v3 used the removed `context.getSourceCode()` API and broke under ESLint 10.
+[Unreleased]: https://github.com/OutCode-Software/bentigration-Frontend/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/OutCode-Software/bentigration-Frontend/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/OutCode-Software/bentigration-Frontend/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/OutCode-Software/bentigration-Frontend/releases/tag/v0.1.0
