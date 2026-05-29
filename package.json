@@ -38,7 +38,7 @@
     "@tanstack/react-query-devtools": "^5.83.0",
     "axios": "^1.8.3",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
+    "lint-staged": "^17.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.3.0",
